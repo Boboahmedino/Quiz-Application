@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Home
+{% endblock title %}
+
+{% block content %}
+<div class="modal fade" id="StartQuiz" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Test</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body-confirm"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                <button type="button" id="start-button" class="btn btn-success">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+    <div class="alert alert-success" role="alert">
+        Welcome, <strong>{{ user.username }}</strong>! Ready to take a quiz?
+    </div>
+{% else %}
+    <div class="alert alert-warning" role="alert">
+        Please <a href="{% url 'login' %}" class="alert-link">Login</a> or <a href="{% url 'register' %}" class="alert-link">Register</a> to take a quiz.
+    </div>
+{% endif %}
+
+<div class="h1">Quiz List</div>
+<hr>
+{% if user.is_authenticated %}
+    <div class="row">
+        {% for quiz in quiz_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ quiz.name }}</h5>
+                    <p class="card-text">
+                        <span class="badge badge-primary">{{ quiz.difficulty }}</span>
+                        <span class="badge badge-secondary">{{ quiz.number_of_questions }} Questions</span>
+                        <span class="badge badge-info">{{ quiz.time }} mins</span>
+                        <span class="badge badge-success">{{ quiz.pass_mark }}% Pass Mark</span>
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <button
+                        class="btn btn-primary btn-block modal-button"
+                        data-pk="{{ quiz.pk }}"
+                        data-quiz="{{ quiz.name }}"
+                        data-questions="{{ quiz.number_of_questions }}"
+                        data-difficulty="{{ quiz.difficulty }}"
+                        data-time="{{ quiz.time }}"
+                        data-pass_mark="{{ quiz.pass_mark }}"
+                        data-toggle="modal"
+                        data-target="#StartQuiz">
+                        Start Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        You must be logged in to view the quiz list.
+    </div>
+{% endif %}
+
+<script src="{% static 'js/home.js' %}" defer></script>
+{% endblock content %}
