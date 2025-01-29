@@ -1,4 +1,4 @@
-# Quiz App Documentation
+# Quiz Application
 
 ## Overview
 The Quiz App is a Django-based web application designed to facilitate quiz creation, management, and participation. Users can log in to take quizzes, view scores, and track progress.
