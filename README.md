@@ -2,7 +2,7 @@
 
 _A feature-rich Django-powered platform designed for seamless quiz creation, management, and participation._
 
----
+--- 
 
 ## 🚀 Overview
 
